@@ -25,30 +25,27 @@ class EnumSubset {
         }
         System.out.println("]");
         System.out.println("Array:"+Arrays.toString(arr));
-        int k = Integer.parseInt(args[0]);
-        int[] data = new int[k];
-        int a = findSubsets(arr, data, k, dupend -1, 0, 0);
+      //  int k = Integer.parseInt(args[0]);
+        int[] data = new int[3];
+        int a = findSubsets(arr, data, 3, dupend -1, 0, 0);
         System.out.println(a);
 
     }
     public static int removeDuplicates(int [] data){
         Arrays.sort(data);
-        int var;
+        int swap ;
         int i=0;
-        for(int  j=data.length; i<j;i++){
-            if(i<data.length-1){
-                if(data[i]==data[i+1]){
-                    while(data[j]==data[j-1]){
-                        j--;
-                    }
-                    var= data[j];
-                    data[j]=data[i];
-                    data[i]=var;
-                    j--;
+        if(data.length>1){
+            for(int j=1;j<data.length;j++){
+                if(data[i]<data[j]){
+                    swap=data[i+1];
+                    data[i+1]= data[j];
+                    data[j]=swap;
+                    i++;
                 }
             }
         }
-        return i;
+        return i+1;
     }
     static int findSubsets(int[] arr,int[] data, int k, int end, int dataIndex, int arrIndex){
         if(dataIndex==k) {
