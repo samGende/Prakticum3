@@ -1,9 +1,10 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 class LexPermute
 {
 
-    // A utility function two swap two characters a and b
     static void swap(int[] str, int i, int j)
     {
         int t = str[i];
@@ -11,7 +12,6 @@ class LexPermute
         str[j] = t;
     }
 
-    // A utility function to reverse a string str[l..h]
     static void reverse(int str[], int l, int h)
     {
         while (l < h) {
@@ -21,13 +21,10 @@ class LexPermute
         }
     }
 
-    // This function finds the index of the smallest
-    // character which is greater than 'first' and is
-    // present in str[l..h]
-    static int findCeil(int str[], int first, int l,
+
+    static int findeKleinste(int str[], int first, int l,
                         int h)
     {
-        // initialize index of ceiling element
         int ceilIndex = l;
 
         // Now iterate through rest of the elements and find
@@ -39,63 +36,66 @@ class LexPermute
         return ceilIndex;
     }
 
-    // Print all permutations of str in sorted order
     static int[] sortedPermutations(int str[], int k)
     {
-        // Get size of string
         int size = str.length;
 
-        int count = 1;
-        // Sort the string in increasing order
+        int count = 1; //k kleinste permutation initializieren
+        // array sortieren
         Arrays.sort(str);
+        System.out.println("Sortiertes Array: " + Arrays.toString(str));
 
-        // Print permutations one by one
         boolean isFinished = false;
         while (!isFinished) {
-            // print this permutation
+            //wenn count ist gleich k array zuruck geben
             if(k == count){
                 return str;
             }
             count++;
 
-            // Find the rightmost character which is
-            // smaller than its next character.
-            // Let us call it 'first char'
+            // index von die kleinste Zahl finden
             int i;
-            for (i = size - 2; i >= 0; --i)
+            for (i = size - 2; i >= 0; --i) {
                 if (str[i] < str[i + 1])
                     break;
+            }
 
-            // If there is no such character, all are
-            // sorted in decreasing order, means we
-            // just printed the last permutation and we are
-            // done.
+            // wenn i == -1 dann war k zu gross
             if (i == -1)
                 isFinished = true;
             else {
-                // Find the ceil of 'first char' in
-                // right of first character.
-                // Ceil of a character is the smallest
-                // character greater than it
-                int ceilIndex = findCeil(str, str[i], i + 1,
+                //kleinste zahl nach rechts finden
+                int kleinste = findeKleinste(str, str[i], i + 1,
                         size - 1);
 
-                // Swap first and second characters
-                swap(str, i, ceilIndex);
+                //kleinste und i tauschen
+                swap(str, i, kleinste);
 
-                // reverse the string on right of 'first
-                // char'
+                //rechts von i in die richtige reihen folge setzen
                 reverse(str, i + 1, size - 1);
             }
         }
         return new int[] {};
     }
 
-    // Driver program to test above function
     public static void main(String[] args)
     {
-        int[] arr = new int[] {1, 2, 3, 4};
-        int[] smallest = sortedPermutations(arr, 4);
-        System.out.println(Arrays.toString(smallest));
+        Scanner input = new Scanner(System.in);
+        ArrayList<Integer> list= new ArrayList<Integer>();
+        while (input.hasNext()) {
+            try {
+                list.add(input.nextInt());
+            } catch (NumberFormatException e) {
+                System.err.println("Input list contains a non-number.");
+                return;
+            }
+        }
+        int[]arr= new int[list.size()];
+        for (int i=0; i<list.size(); i++){
+            arr[i]=list.get(i);
+        }
+        int k = Integer.parseInt(args[0]);
+        int[] smallest = sortedPermutations(arr, k);
+        System.out.println(Arrays.toString(smallest) + " is the " + k + " kleinste Zahl");
     }
 }
