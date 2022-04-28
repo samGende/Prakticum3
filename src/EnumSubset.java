@@ -25,10 +25,14 @@ class EnumSubset {
         }
         System.out.println("]");
         System.out.println("Array:"+Arrays.toString(arr));
-      //  int k = Integer.parseInt(args[0]);
-        int[] data = new int[3];
-        int a = findSubsets(arr, data, 3, dupend -1, 0, 0);
-        System.out.println(a);
+       int k = Integer.parseInt(args[0]);
+        int[] data = new int[k];
+        if(k> dupend){
+            System.out.println("Error k ist zu gross");
+        } else{
+        int a = findSubsets(arr, data, k, dupend -1, 0, 0);
+        System.out.println("Es gibt "+ a + " permutationen");
+        }
 
     }
     public static int removeDuplicates(int [] data){
